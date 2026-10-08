@@ -101,8 +101,15 @@ extension SegementSlideViewController {
     }
     
     internal func layoutSegementSlideScrollView() {
+        // The view extends under the top bar for sizing, but the header should not: start the scroll view
+        // at the safe top so bounces and refresh indicators stay below the bar.
+        let scrollsBelowTopBar = edgesForExtendedLayout.contains(.top) && !isHeaderExtendedUnderTopBar
+        if scrollsBelowTopBar, #available(iOS 11, *),
+           scrollView.topConstraint?.secondItem !== view.safeAreaLayoutGuide {
+            scrollView.topConstraint = scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
+        }
         let topLayoutLength: CGFloat
-        if isHeaderExtendedUnderTopBar {
+        if isHeaderExtendedUnderTopBar || scrollsBelowTopBar {
             topLayoutLength = 0
         } else {
             topLayoutLength = self.topLayoutLength
