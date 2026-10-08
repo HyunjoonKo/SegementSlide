@@ -92,6 +92,14 @@ extension SegementSlideViewController {
         cleanUpChildKeyValueObservations()
     }
     
+    /// Horizontal edges for the header, switcher and content views.
+    private var horizontalLayoutAnchors: (leading: NSLayoutXAxisAnchor, trailing: NSLayoutXAxisAnchor) {
+        if layoutsInSafeAreaHorizontally, #available(iOS 11, *) {
+            return (view.safeAreaLayoutGuide.leadingAnchor, view.safeAreaLayoutGuide.trailingAnchor)
+        }
+        return (view.leadingAnchor, view.trailingAnchor)
+    }
+    
     internal func layoutSegementSlideScrollView() {
         let topLayoutLength: CGFloat
         if isHeaderExtendedUnderTopBar {
@@ -109,10 +117,10 @@ extension SegementSlideViewController {
             }
         }
         if headerView.leadingConstraint == nil {
-            headerView.leadingConstraint = headerView.leadingAnchor.constraint(equalTo: view.leadingAnchor)
+            headerView.leadingConstraint = headerView.leadingAnchor.constraint(equalTo: horizontalLayoutAnchors.leading)
         }
         if headerView.trailingConstraint == nil {
-            headerView.trailingConstraint = headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            headerView.trailingConstraint = headerView.trailingAnchor.constraint(equalTo: horizontalLayoutAnchors.trailing)
         }
         headerView.config(innerHeaderView, contentView: contentView)
         
@@ -132,10 +140,10 @@ extension SegementSlideViewController {
             safeAreaTopConstraint?.isActive = true
         }
         if switcherView.leadingConstraint == nil {
-            switcherView.leadingConstraint = switcherView.leadingAnchor.constraint(equalTo: view.leadingAnchor)
+            switcherView.leadingConstraint = switcherView.leadingAnchor.constraint(equalTo: horizontalLayoutAnchors.leading)
         }
         if switcherView.trailingConstraint == nil {
-            switcherView.trailingConstraint = switcherView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            switcherView.trailingConstraint = switcherView.trailingAnchor.constraint(equalTo: horizontalLayoutAnchors.trailing)
         }
         if switcherView.heightConstraint == nil {
             switcherView.heightConstraint = switcherView.heightAnchor.constraint(equalToConstant: switcherHeight)
@@ -150,10 +158,10 @@ extension SegementSlideViewController {
             contentView.topConstraint = contentView.topAnchor.constraint(equalTo: switcherView.bottomAnchor)
         }
         if contentView.leadingConstraint == nil {
-            contentView.leadingConstraint = contentView.leadingAnchor.constraint(equalTo: view.leadingAnchor)
+            contentView.leadingConstraint = contentView.leadingAnchor.constraint(equalTo: horizontalLayoutAnchors.leading)
         }
         if contentView.trailingConstraint == nil {
-            contentView.trailingConstraint = contentView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            contentView.trailingConstraint = contentView.trailingAnchor.constraint(equalTo: horizontalLayoutAnchors.trailing)
         }
         if contentView.bottomConstraint == nil {
             contentView.bottomConstraint = contentView.bottomAnchor.constraint(equalTo: view.bottomAnchor)

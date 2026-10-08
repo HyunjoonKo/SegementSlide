@@ -36,6 +36,12 @@ open class SegementSlideViewController: UIViewController {
         return edgesForExtendedLayout.contains(.top)
     }
     
+    /// Whether the header, switcher and content views stay inside the horizontal safe area
+    /// (e.g. clear of side bars). Read once when their constraints are created. Default `false`.
+    open var layoutsInSafeAreaHorizontally: Bool {
+        return false
+    }
+    
     public var headerStickyHeight: CGFloat {
         let headerHeight = headerView.frame.height.rounded(.up)
         if isHeaderExtendedUnderTopBar {
