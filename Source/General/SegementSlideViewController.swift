@@ -30,9 +30,15 @@ open class SegementSlideViewController: UIViewController {
     internal var lastChildBouncesTranslationY: CGFloat = 0
     internal var cachedChildViewControllerIndex: Set<Int> = Set()
     
+    /// Whether the header is laid out underneath the top bar (default: `edgesForExtendedLayout` contains `.top`).
+    /// Override when the view must extend under bars for UIKit sizing but the header should still start below the top bar.
+    open var isHeaderExtendedUnderTopBar: Bool {
+        return edgesForExtendedLayout.contains(.top)
+    }
+    
     public var headerStickyHeight: CGFloat {
         let headerHeight = headerView.frame.height.rounded(.up)
-        if edgesForExtendedLayout.contains(.top) {
+        if isHeaderExtendedUnderTopBar {
             return headerHeight - topLayoutLength
         } else {
             return headerHeight
@@ -67,7 +73,7 @@ open class SegementSlideViewController: UIViewController {
     }
     
     open func segementSlideHeaderView() -> UIView? {
-        if edgesForExtendedLayout.contains(.top) {
+        if isHeaderExtendedUnderTopBar {
             #if DEBUG
             assert(false, "must override this variable")
             #endif

@@ -94,7 +94,7 @@ extension SegementSlideViewController {
     
     internal func layoutSegementSlideScrollView() {
         let topLayoutLength: CGFloat
-        if edgesForExtendedLayout.contains(.top) {
+        if isHeaderExtendedUnderTopBar {
             topLayoutLength = 0
         } else {
             topLayoutLength = self.topLayoutLength
