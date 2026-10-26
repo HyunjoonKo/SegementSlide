@@ -61,6 +61,13 @@ extension SegementSlideViewController: SegementSlideContentDelegate {
             guard index == self.currentIndex else {
                 return
             }
+            // Offset changes made while handling (e.g. resetting the child to 0 while the table view re-adjusts it)
+            // would re-enter this observer synchronously and recurse until the stack overflows.
+            guard !self.isHandlingChildScroll else {
+                return
+            }
+            self.isHandlingChildScroll = true
+            defer { self.isHandlingChildScroll = false }
             self.childScrollViewDidScroll(scrollView)
         })
         childKeyValueObservations[key] = keyValueObservation

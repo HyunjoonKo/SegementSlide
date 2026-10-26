@@ -24,6 +24,8 @@ open class SegementSlideViewController: UIViewController {
     internal var safeAreaTopConstraint: NSLayoutConstraint?
     internal var parentKeyValueObservation: NSKeyValueObservation?
     internal var childKeyValueObservations: [String: NSKeyValueObservation] = [:]
+    /// Set while a child contentOffset change is being handled, so offset changes made during that handling do not re-enter it.
+    internal var isHandlingChildScroll: Bool = false
     internal var innerBouncesType: BouncesType = .parent
     internal var canParentViewScroll: Bool = true
     internal var canChildViewScroll: Bool = false
